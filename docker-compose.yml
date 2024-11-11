@@ -1,0 +1,59 @@
+
+services:
+  # Servicio para el contenedor de PHP
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: laravel-app
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/var/www
+    networks:
+      - laravel_network
+    environment:
+      # Conexión a la base de datos
+      DB_CONNECTION: mysql
+      DB_HOST: db  # Aquí debes usar el nombre del servicio de la base de datos (db)
+      DB_PORT: 3306
+      DB_DATABASE: productservice
+      DB_USERNAME: root
+      DB_PASSWORD: puntos123456
+
+  # Servicio para la base de datos MySQL
+  db:
+    image: mysql:5.7
+    container_name: laravel-db
+    environment:
+      MYSQL_ROOT_PASSWORD: puntos123456   # Aquí debes usar la misma contraseña que proporcionaste
+      MYSQL_DATABASE: productservice       # Aquí debes usar el nombre de tu base de datos
+      MYSQL_USER: root                     # Usuario: root
+      MYSQL_PASSWORD: puntos123456         # Contraseña de root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - laravel_network
+
+  # Servicio para el servidor web Nginx
+  nginx:
+    image: nginx:latest
+    container_name: laravel-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www
+    networks:
+      - laravel_network
+
+volumes:
+  mysql_data:
+
+networks:
+  laravel_network:
+    driver: bridge
+

@@ -1,0 +1,72 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Catálogo de Productos y Gestión de Órdenes",
+        "description": "Documentación de la API para el manejo de productos y órdenes",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get list of products",
+                "description": "Returns list of products",
+                "operationId": "a1ec037512ebef012059f620ac642a1f",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Crear un nuevo producto",
+                "operationId": "e8185e307706e2cd84bbcf5171e2f09d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Producto A"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descripción del producto"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": "99.99"
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": "100"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Products",
+            "description": "Products"
+        }
+    ]
+}
